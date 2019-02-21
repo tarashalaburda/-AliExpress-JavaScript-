@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 showConfirm(); // shopping cart 
 
-                calcGoods(1); // display the quantity of goods in the red badge
+                
         
                 removeBtn.classList.add('goods__item-remove');
                 removeBtn.innerHTML = '&times'; 
@@ -46,7 +46,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     empty.style.display = 'none';
 
                 }
-            
+
+                calcGoods(); // display the quantity of goods in the red badge
                 calcTotal(); // calculation of the amount of goods
                 removeFromCart(); // func remove item
             
@@ -91,9 +92,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
         }
         // function to display the quantity of goods in the shopping cart in the badge
-        function calcGoods(i) {
+        function calcGoods() {
             const items = cartWrapper.querySelectorAll('.goods__item');
-            badge.textContent = i + items.length;
+            badge.textContent =  items.length;
         }
 
         //function to calculate the amount of goods in the shopping cart
@@ -112,7 +113,7 @@ window.addEventListener('DOMContentLoaded', () => {
            removeBtn.forEach(function(btn) {
                btn.addEventListener('click', () => {
                     btn.parentElement.remove();
-                    calcGoods(0);
+                    calcGoods();
                     calcTotal();
 
                     // return label your cart is empty after removing all items from the cart
@@ -125,9 +126,42 @@ window.addEventListener('DOMContentLoaded', () => {
                });
            });
         }
-
-
-
 });
+//function to load data from json file
+const loadContent = (url) => {
+    fetch(url) // Promis
+        .then(response => response.json())
+        .then(json => createElement(json.goods));
+
+
+}
+// function of dynamic crete of products on the page through the server
+function createElement(arr) {
+    const goodsWrapper = document.querySelector('.goods__wrapper');
+
+    arr.forEach(function(item) {
+        let card = document.createElement('div');
+        card.classList.add('goods__item');
+        card.innerHTML = `
+            <img class="goods__img" src="${item.url}" alt="phone">
+            <div class="goods__colors">Доступно цветов: 4</div>
+            <div class="goods__title">
+                ${item.title}
+            </div>
+            <div class="goods__price">
+                <span>${item.price}</span> руб/шт
+            </div>
+            <button class="goods__btn">Добавить в корзину</button>
+        
+        `;
+        goodsWrapper.appendChild(card);
+    });
+}
+
+loadContent('js/db.json');
+
+
+
+
 
 
