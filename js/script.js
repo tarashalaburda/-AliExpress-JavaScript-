@@ -31,7 +31,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 empty = cartWrapper.querySelector('.empty');
             
             trigger.remove();
+
             showConfirm(); // shopping cart 
+
+            calcGoods(1); // display the quantity of goods in the red badge
 
             removeBtn.classList.add('goods__item-remove');
             removeBtn.innerHTML = '&times'; 
@@ -81,8 +84,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
     }
-
-
+    // function to display the quantity of goods in the shopping cart in the badge
+    function calcGoods(i) {
+        const items = cartWrapper.querySelectorAll('.goods__item');
+        badge.textContent = i + items.length;
+    }
       
     
     
