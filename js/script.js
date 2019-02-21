@@ -48,6 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             
                 calcTotal(); // calculation of the amount of goods
+                removeFromCart(); 
             
                 
             });
@@ -102,12 +103,20 @@ window.addEventListener('DOMContentLoaded', () => {
             prices.forEach(function(item) {
                 total += +item.textContent; // convert string to number 
             });
-
             totalCost.textContent = total;
-
-        
+    
         }
-           
+        // a function that removes an item from the cart and calculates the final amount
+        function removeFromCart() {
+           const removeBtn = cartWrapper.querySelectorAll('.goods__item-remove');
+           removeBtn.forEach(function(btn) {
+               btn.addEventListener('click', () => {
+                    btn.parentElement.remove();
+                    calcGoods(0);
+                    calcTotal();
+               });
+           });
+        }
 
 
 
