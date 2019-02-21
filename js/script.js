@@ -31,6 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 empty = cartWrapper.querySelector('.empty');
             
             trigger.remove();
+            showConfirm(); // shopping cart 
 
             removeBtn.classList.add('goods__item-remove');
             removeBtn.innerHTML = '&times'; 
@@ -45,7 +46,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-         // function to reduce information about the product 
+    // function to reduce information about the product 
     function sliceTitle() {
         titles.forEach(function(item){
             if (item.textContent.length < 60) {
@@ -59,7 +60,30 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
     sliceTitle();
-    
+
+    // function to create a shopping cart 
+    function showConfirm () {
+        confirm.style.display = 'block';
+        let counter = 100;
+        const id = setInterval(frame, 10);
+
+        function frame() {
+            if ( counter == 10) {
+                clearInterval(id);
+                confirm.style.display = 'none';
+            } else {
+                counter--;
+                confirm.style.transform = `translateY(-${counter}px)`;
+                confirm.style.opacity = '.' + counter;
+            }
+            
+
+        }
+
+    }
+
+
+      
     
     
 
