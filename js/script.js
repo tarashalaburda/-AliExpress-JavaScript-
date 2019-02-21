@@ -1,6 +1,37 @@
 window.addEventListener('DOMContentLoaded', () => {
+        //function to load data from json file
+    const loadContent = async (url, callback) => {
+        await fetch(url) // Promis
+            .then(response => response.json())
+            .then(json => createElement(json.goods));
+        
+        callback();
+    }
+    // function of dynamic crete of products on the page through the server
+    function createElement(arr) {
+        const goodsWrapper = document.querySelector('.goods__wrapper');
 
-    const cartWrapper = document.querySelector('.cart__wrapper'),
+        arr.forEach(function(item) {
+            let card = document.createElement('div');
+            card.classList.add('goods__item');
+            card.innerHTML = `
+                <img class="goods__img" src="${item.url}" alt="phone">
+                <div class="goods__colors">Доступно цветов: 4</div>
+                <div class="goods__title">
+                    ${item.title}
+                </div>
+                <div class="goods__price">
+                    <span>${item.price}</span> руб/шт
+                </div>
+                <button class="goods__btn">Добавить в корзину</button>
+            
+            `;
+            goodsWrapper.appendChild(card);
+        });
+    }
+
+    loadContent('js/db.json', () => {
+        const cartWrapper = document.querySelector('.cart__wrapper'),
         cart = document.querySelector('.cart'),
         close = document.querySelector('.cart__close'), // for closing cross
         open = document.querySelector('#cart'),
@@ -10,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
         badge = document.querySelector('.nav__badge'), // quantity of goods
         totalCost = document.querySelector('.cart__total > span'),
         titles = document.querySelectorAll('.goods__title');
-  
+
         function openCart() {
         cart.style.display = 'block';
         document.body.style.overflow = 'hidden'; // closes other page elements
@@ -82,7 +113,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     confirm.style.display = 'none';
                 } else {
                     counter--;
-                    
                     confirm.style.opacity = '.' + counter;
                     confirm.style.transform = `translateY(-${counter}px)`;
                 }
@@ -105,13 +135,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 total += +item.textContent; // convert string to number 
             });
             totalCost.textContent = total;
-    
+
         }
         // a function that removes an item from the cart and calculates the final amount
         function removeFromCart() {
-           const removeBtn = cartWrapper.querySelectorAll('.goods__item-remove');
-           removeBtn.forEach(function(btn) {
-               btn.addEventListener('click', () => {
+        const removeBtn = cartWrapper.querySelectorAll('.goods__item-remove');
+        removeBtn.forEach(function(btn) {
+            btn.addEventListener('click', () => {
                     btn.parentElement.remove();
                     calcGoods();
                     calcTotal();
@@ -123,42 +153,13 @@ window.addEventListener('DOMContentLoaded', () => {
                         empty.style.display = 'block';
 
                     }
-               });
-           });
+            });
+        });
         }
-});
-//function to load data from json file
-const loadContent = (url) => {
-    fetch(url) // Promis
-        .then(response => response.json())
-        .then(json => createElement(json.goods));
-
-
-}
-// function of dynamic crete of products on the page through the server
-function createElement(arr) {
-    const goodsWrapper = document.querySelector('.goods__wrapper');
-
-    arr.forEach(function(item) {
-        let card = document.createElement('div');
-        card.classList.add('goods__item');
-        card.innerHTML = `
-            <img class="goods__img" src="${item.url}" alt="phone">
-            <div class="goods__colors">Доступно цветов: 4</div>
-            <div class="goods__title">
-                ${item.title}
-            </div>
-            <div class="goods__price">
-                <span>${item.price}</span> руб/шт
-            </div>
-            <button class="goods__btn">Добавить в корзину</button>
-        
-        `;
-        goodsWrapper.appendChild(card);
     });
-}
 
-loadContent('js/db.json');
+});
+
 
 
 
