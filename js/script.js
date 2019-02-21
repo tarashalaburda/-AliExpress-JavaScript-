@@ -44,17 +44,24 @@ window.addEventListener('DOMContentLoaded', () => {
             
         });
     });
-    // function to reduce information about the product 
-    titles.forEach(function(item){
-        if (item.textContent.length < 60) {
-            return;
 
-        } else { 
-            const str = item.textContent.slice(0, 61) + '...';
-            //const str = `${item.textContent.slice(0, 61)}...`;
-            item.textContent = str;
-        }
-    });
+         // function to reduce information about the product 
+    function sliceTitle() {
+        titles.forEach(function(item){
+            if (item.textContent.length < 60) {
+                return;
+
+            } else { 
+                const str = item.textContent.slice(0, 61) + '...';
+                //const str = `${item.textContent.slice(0, 61)}...`;
+                item.textContent = str;
+            }
+        });
+    }
+    sliceTitle();
+    
+    
+    
 
 
 });
