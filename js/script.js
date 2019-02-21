@@ -43,12 +43,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 
                 cartWrapper.appendChild(item);
                 if (empty) {
-                    empty.remove();
+                    empty.style.display = 'none';
 
                 }
             
                 calcTotal(); // calculation of the amount of goods
-                removeFromCart(); 
+                removeFromCart(); // func remove item
             
                 
             });
@@ -114,6 +114,14 @@ window.addEventListener('DOMContentLoaded', () => {
                     btn.parentElement.remove();
                     calcGoods(0);
                     calcTotal();
+
+                    // return label your cart is empty after removing all items from the cart
+                    let i = document.querySelectorAll('.cart__wrapper > .goods__item');
+                    if (i.length === 0) {
+                        let empty = cartWrapper.querySelector('.empty');
+                        empty.style.display = 'block';
+
+                    }
                });
            });
         }
